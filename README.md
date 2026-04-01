@@ -1,22 +1,22 @@
-# SGIA - Sistema de Gestión de Inventario y Almacén
+# SGIA - Sistema de Gestión de Inventarios Académico
 
 ## Descripción
 
-SGIA es una aplicación fullstack completa para la gestión de inventario y almacén. El sistema permite administrar productos, categorías, registrar movimientos de inventario (entradas y salidas), y generar reportes en tiempo real.
+SGIA es una aplicación fullstack completa para la gestión de inventarios. El sistema permite administrar productos, categorías, registrar movimientos de inventario (entradas y salidas), y generar reportes en tiempo real.
 
 ## Stack Tecnológico
 
 ### Backend
 
 - **Framework:** .NET Core 10
-- **Base de Datos:** PostgreSQL 18
-- **Autenticación:** Keycloak 26
+- **Base de Datos:** PostgreSQL 18.1
+- **Autenticación:** Keycloak 26.5.4
 - **ORM:** Entity Framework Core
 - **Arquitectura:** Clean Architecture (Domain, Application, Infrastructure, API)
 
 ### Frontend
 
-- **Framework:** Angular 21
+- **Framework:** Angular 21 con soporte PWA
 - **UI Library:** Angular Material
 - **Gestión de Estado:** RxJS / Signals
 - **Build:** Yarn + Vite
@@ -99,7 +99,7 @@ cd sgia-project
 ### 2. Levantar los servicios
 
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
 ### 3. Verificar que todos los servicios estén corriendo
