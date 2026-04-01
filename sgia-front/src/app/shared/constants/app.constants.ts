@@ -3,7 +3,7 @@ export const APP_CONFIG = {
   keycloak: {
     url: 'http://localhost:8088',
     realm: 'sgia-realm',
-    clientId: 'sgia-frontend',
+    clientId: 'frontend-app',
     redirectUri: 'http://localhost:42000/callback',
   },
 };

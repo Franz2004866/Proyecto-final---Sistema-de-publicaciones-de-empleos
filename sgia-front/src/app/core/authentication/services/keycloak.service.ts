@@ -22,7 +22,7 @@ export class KeycloakService {
 
   constructor() {
     this.keycloak = new Keycloak({
-      url: APP_CONFIG.keycloak.url + '/realms',
+      url: APP_CONFIG.keycloak.url,
       realm: APP_CONFIG.keycloak.realm,
       clientId: APP_CONFIG.keycloak.clientId,
     });
