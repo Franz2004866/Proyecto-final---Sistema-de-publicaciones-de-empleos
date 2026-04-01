@@ -150,8 +150,10 @@ import {
                 @if (saving()) {
                   <mat-spinner diameter="20"></mat-spinner>
                 } @else {
-                  <mat-icon>save</mat-icon>
-                  {{ isEditMode() ? 'Actualizar' : 'Crear' }}
+                  <ng-container>
+                    <mat-icon>save</mat-icon>
+                    {{ isEditMode() ? 'Actualizar' : 'Crear' }}
+                  </ng-container>
                 }
               </button>
             </mat-card-actions>

@@ -60,10 +60,12 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "sgia-front:build:production"
+              "buildTarget": "sgia-front:build:production",
+              "port": 42000
             },
             "development": {
-              "buildTarget": "sgia-front:build:development"
+              "buildTarget": "sgia-front:build:development",
+              "port": 42000
             }
           },
           "defaultConfiguration": "development"
