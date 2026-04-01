@@ -1,0 +1,50 @@
+# ============================================
+# .NET / Visual Studio
+# ============================================
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.suo
+*.cache
+*.log
+*.vs/
+*.nupkg
+packages/
+project.fragment.lock.json
+project.packages.lock.json
+artifacts/
+TestResults/
+*.DS_Store
+
+# ============================================
+# Angular
+# ============================================
+node_modules/
+dist/
+.angular/
+ngsw-config.json
+*.tsbuildinfo
+
+# ============================================
+# IDEs
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================
+# OS
+# ============================================
+Thumbs.db
+.DS_Store
+
+# ============================================
+# Docker
+# ============================================
+Dockerfile.local
+docker-compose.override.yml

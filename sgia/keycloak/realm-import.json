@@ -1,0 +1,185 @@
+{
+  "id": "sgia-realm",
+  "realm": "sgia-realm",
+  "enabled": true,
+  "displayName": "SGIA - Sistema de Gestión de Inventarios",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><h1>SGIA</h1></div>",
+  "accessTokenLifespan": 7200,
+  "accessCodeLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 28800,
+  "offlineSessionIdleTimeout": 2592000,
+  "offlineSessionMaxLifespan": 5184000,
+  "accessCodeLifespanUserAction": 300,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "registrationEmailAsUsername": false,
+  "rememberMe": false,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "clients": [
+    {
+      "clientId": "backend-client",
+      "name": "Backend API Client",
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "backend-secret-key",
+      "redirectUris": [
+        "http://localhost:5150/*",
+        "http://localhost:*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "client_secret.creation.time": "1743439200",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "oidc.ciba.grant.enabled": "false",
+        "oauth2.token.exchange.grant.enabled": "false"
+      },
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "frontend-app",
+      "name": "Angular Frontend Application",
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "frontend-secret-key",
+      "redirectUris": [
+        "http://localhost:4200/*",
+        "http://localhost:*"
+      ],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oauth2.token.exchange.grant.enabled": "false"
+      },
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Administrator role with full access",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "operario",
+        "description": "Operario de inventario - acceso limitado",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "offline_access",
+        "description": "${role_offline-access}",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false,
+        "clientRole": false
+      }
+    ]
+  },
+  "users": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "admin@sgia.local",
+      "firstName": "Administrador",
+      "lastName": "Sistema",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Admin123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "username": "operario",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "operario@sgia.local",
+      "firstName": "Operario",
+      "lastName": "Inventario",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Operario123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["operario"]
+    }
+  ],
+  "components": {
+    "org.keycloak.keys.KeyProvider": [
+      {
+        "name": "rsa-generated",
+        "providerId": "rsa-generated",
+        "config": {
+          "priority": ["100"],
+          "algorithm": ["RS256"],
+          "keySize": ["2048"]
+        }
+      },
+      {
+        "name": "aes-generated",
+        "providerId": "aes-generated",
+        "config": {
+          "priority": ["100"],
+          "algorithm": ["AES"]
+        }
+      }
+    ]
+  }
+}

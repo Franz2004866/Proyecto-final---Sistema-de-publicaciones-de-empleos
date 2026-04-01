@@ -1,0 +1,6 @@
+@SGIA.API_HostAddress = http://localhost:5150
+
+GET {{SGIA.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

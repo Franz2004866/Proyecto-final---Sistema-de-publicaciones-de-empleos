@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="SGIA.API/SGIA.API.csproj" />
+  <Project Path="SGIA.Application/SGIA.Application.csproj" />
+  <Project Path="SGIA.Domain/SGIA.Domain.csproj" />
+  <Project Path="SGIA.Infrastructure/SGIA.Infrastructure.csproj" />
+</Solution>
