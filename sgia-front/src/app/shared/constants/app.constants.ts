@@ -1,10 +1,10 @@
 export const APP_CONFIG = {
-  apiUrl: 'http://localhost:8080/api',
+  apiUrl: 'http://localhost:5150/api',
   keycloak: {
-    url: 'http://localhost:8180',
+    url: 'http://localhost:8088',
     realm: 'sgia-realm',
     clientId: 'sgia-frontend',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'http://localhost:42000/callback',
   },
 };
 

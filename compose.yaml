@@ -10,7 +10,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - lasin_pg_data:/var/lib/postgresql
+      - sgia_pg_data:/var/lib/postgresql
       - ./Scripts/01-create-databases.sql:/docker-entrypoint-initdb.d/01-create-databases.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -19,11 +19,11 @@ services:
       retries: 10
       start_period: 5s
     networks:
-      - lasin-network
+      - sgia-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.5.4
-    container_name: lasin_kc
+    container_name: sgia_kc
     restart: on-failure:2
     environment:
       KC_DB: postgres
@@ -43,20 +43,21 @@ services:
     ports:
       - "8088:8080"
     volumes:
-      - lasin_kc_data:/opt/keycloak/data
+      - sgia_kc_data:/opt/keycloak/data
       - ./keycloak/realm-import.json:/opt/keycloak/data/import/realm-import.json:ro
     depends_on:
       postgres:
         condition: service_healthy
     command: start-dev --import-realm
     networks:
-      - lasin-network
+      - sgia-network
 
   webapi:
     build:
-      context: .
+      context: ./sgia
       dockerfile: Dockerfile
-    container_name: lasin_aspnetcore_webapi
+    container_name: sgia_aspnetcore_webapi
+    restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:5150
@@ -71,12 +72,27 @@ services:
       keycloak:
         condition: service_started
     networks:
-      - lasin-network
+      - sgia-network
+
+  frontend:
+    build:
+      context: ./sgia-front
+      dockerfile: Dockerfile
+    container_name: sgia_frontend
+    environment:
+      API_URL: http://webapi:5150
+      KEYCLOAK_URL: http://keycloak:8080
+    ports:
+      - "42000:80"
+    depends_on:
+      - webapi
+    networks:
+      - sgia-network
 
 volumes:
-  lasin_pg_data:
-  lasin_kc_data:
+  sgia_pg_data:
+  sgia_kc_data:
 
 networks:
-  lasin-network:
+  sgia-network:
     driver: bridge
