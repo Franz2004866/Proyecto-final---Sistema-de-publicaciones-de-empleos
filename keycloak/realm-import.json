@@ -1,9 +1,9 @@
 {
-  "id": "sgia-realm",
-  "realm": "sgia-realm",
+  "id": "tuempleo-realm",
+  "realm": "tuempleo-realm",
   "enabled": true,
-  "displayName": "SGIA - Sistema de Gestión de Inventarios",
-  "displayNameHtml": "<div class=\"kc-logo-text\"><h1>SGIA</h1></div>",
+  "displayName": "TuEmpleo - Plataforma de Publicación de Empleos",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><h1>TuEmpleo</h1></div>",
   "accessTokenLifespan": 7200,
   "accessCodeLifespan": 300,
   "ssoSessionIdleTimeout": 1800,
@@ -12,13 +12,12 @@
   "offlineSessionMaxLifespan": 5184000,
   "accessCodeLifespanUserAction": 300,
   "sslRequired": "external",
-  "registrationAllowed": false,
-  "registrationEmailAsUsername": false,
+  "registrationAllowed": true,
   "rememberMe": false,
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
-  "resetPasswordAllowed": false,
+  "resetPasswordAllowed": true,
   "editUsernameAllowed": false,
   "bruteForceProtected": true,
   "clients": [
@@ -71,18 +70,22 @@
       "name": "Angular Frontend Application",
       "enabled": true,
       "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "frontend-secret-key",
       "redirectUris": [
+        "http://localhost:42000/*",
+        "http://localhost:42000",
         "http://localhost:4200/*",
-        "http://localhost:*"
+        "http://localhost:4200",
+        "http://localhost:42000/callback",
+        "http://localhost:4200/callback",
+        "http://localhost/*"
       ],
       "webOrigins": [
+        "http://localhost:42000",
         "http://localhost:4200"
       ],
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
+      "directAccessGrantsEnabled": true,
       "publicClient": true,
       "protocol": "openid-connect",
       "attributes": {
@@ -101,13 +104,19 @@
     "realm": [
       {
         "name": "admin",
-        "description": "Administrator role with full access",
+        "description": "Administrador con acceso completo al sistema",
         "composite": false,
         "clientRole": false
       },
       {
-        "name": "operario",
-        "description": "Operario de inventario - acceso limitado",
+        "name": "empresa",
+        "description": "Rol de empresa para publicar empleos",
+        "composite": false,
+        "clientRole": false
+      },
+      {
+        "name": "postulante",
+        "description": "Rol de postulante para aplicar a empleos",
         "composite": false,
         "clientRole": false
       },
@@ -131,13 +140,13 @@
       "username": "admin",
       "enabled": true,
       "emailVerified": true,
-      "email": "admin@sgia.local",
+      "email": "admin@tuempleo.local",
       "firstName": "Administrador",
       "lastName": "Sistema",
       "credentials": [
         {
           "type": "password",
-          "value": "Admin123@",
+          "value": "password123",
           "temporary": false
         }
       ],
@@ -145,20 +154,122 @@
     },
     {
       "id": "00000000-0000-0000-0000-000000000002",
-      "username": "operario",
+      "username": "empresa",
       "enabled": true,
       "emailVerified": true,
-      "email": "operario@sgia.local",
-      "firstName": "Operario",
-      "lastName": "Inventario",
+      "email": "contacto@boliviatech.bo",
+      "firstName": "Bolivia",
+      "lastName": "Tech Solutions",
       "credentials": [
         {
           "type": "password",
-          "value": "Operario123@",
+          "value": "password123",
           "temporary": false
         }
       ],
-      "realmRoles": ["operario"]
+      "realmRoles": ["empresa"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "username": "juan.perez",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "juan.perez@gmail.com",
+      "firstName": "Juan",
+      "lastName": "Perez",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["postulante"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "username": "maria.garcia",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "maria.garcia@hotmail.com",
+      "firstName": "Maria",
+      "lastName": "Garcia",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Postulante123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["postulante"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000005",
+      "username": "carlos.mamani",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "carlos.mamani@yahoo.com",
+      "firstName": "Carlos",
+      "lastName": "Mamani",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Postulante123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["postulante"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000006",
+      "username": "ana.quispe",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "ana.quispe@gmail.com",
+      "firstName": "Ana",
+      "lastName": "Quispe",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Postulante123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["postulante"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000007",
+      "username": "luis.fernandez",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "luis.fernandez@hotmail.com",
+      "firstName": "Luis",
+      "lastName": "Fernandez",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Postulante123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["postulante"]
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000008",
+      "username": "sofia.castro",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "sofia.castro@gmail.com",
+      "firstName": "Sofia",
+      "lastName": "Castro",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Postulante123@",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["postulante"]
     }
   ],
   "components": {

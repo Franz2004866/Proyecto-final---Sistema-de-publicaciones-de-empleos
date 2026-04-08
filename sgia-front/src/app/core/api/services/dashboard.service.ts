@@ -1,24 +1,30 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
-import { APP_CONFIG } from '../../../shared/constants/app.constants';
+import { environment } from '../../../environments/environment';
 
 export interface DashboardSummary {
-  totalProducts: number;
-  totalStockValue: number;
-  lowStockProducts: number;
-  totalCategories: number;
-  recentActivity: {
-    type: string;
-    description: string;
-    date: string;
+  totalEmpleos: number;
+  totalPostulaciones: number;
+  totalPostulantes: number;
+  totalEmpresas: number;
+  empleosActivos: number;
+  empleosDestacados: number;
+  postulacionesPendientes: number;
+  empleosRecientes: {
+    id: number;
+    titulo: string;
+    nombreEmpresa: string;
+    modalidad: string;
+    fechaPublicacion: string;
+    totalPostulaciones: number;
   }[];
-  lowStockAlerts: {
-    productId: string;
-    productName: string;
-    productCode: string;
-    currentStock: number;
-    minimalStock: number;
+  postulacionesRecientes: {
+    id: number;
+    nombrePostulante: string;
+    tituloEmpleo: string;
+    estado: string;
+    fechaPostulacion: string;
   }[];
 }
 
@@ -27,7 +33,7 @@ export interface DashboardSummary {
 })
 export class DashboardService {
   private http = inject(HttpClient);
-  private apiUrl = APP_CONFIG.apiUrl + '/dashboard';
+  private apiUrl = environment.apiUrl + '/Dashboard';
 
   private _summary = signal<DashboardSummary | null>(null);
   private _loading = signal(false);

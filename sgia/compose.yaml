@@ -1,17 +1,16 @@
 services:
   postgres:
     image: docker.io/library/postgres:18.1-trixie
-    container_name: sgia_postgres
+    container_name: tuempleo_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Lasin1234
-      POSTGRES_DB: postgres
+      POSTGRES_DB: tuempleo_db
     ports:
       - "5434:5432"
     volumes:
-      - lasin_pg_data:/var/lib/postgresql
-      - ./Scripts/01-create-databases.sql:/docker-entrypoint-initdb.d/01-create-databases.sql:ro
+      - tuempleo_pg_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -19,11 +18,11 @@ services:
       retries: 10
       start_period: 5s
     networks:
-      - lasin-network
+      - tuempleo-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.5.4
-    container_name: lasin_kc
+    container_name: tuempleo_kc
     restart: on-failure:2
     environment:
       KC_DB: postgres
@@ -43,25 +42,25 @@ services:
     ports:
       - "8088:8080"
     volumes:
-      - lasin_kc_data:/opt/keycloak/data
+      - tuempleo_kc_data:/opt/keycloak/data
       - ./keycloak/realm-import.json:/opt/keycloak/data/import/realm-import.json:ro
     depends_on:
       postgres:
         condition: service_healthy
     command: start-dev --import-realm
     networks:
-      - lasin-network
+      - tuempleo-network
 
   webapi:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: lasin_aspnetcore_webapi
+    container_name: tuempleo_webapi
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:5150
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=sgia_db;Username=postgres;Password=Lasin1234
-      Keycloak__Authority: http://keycloak:8080/realms/sgia-realm
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=tuempleo_db;Username=postgres;Password=Lasin1234
+      Keycloak__Authority: http://keycloak:8080/realms/tuempleo-realm
       Keycloak__Audience: backend-client
     ports:
       - "5150:5150"
@@ -71,12 +70,12 @@ services:
       keycloak:
         condition: service_started
     networks:
-      - lasin-network
+      - tuempleo-network
 
 volumes:
-  lasin_pg_data:
-  lasin_kc_data:
+  tuempleo_pg_data:
+  tuempleo_kc_data:
 
 networks:
-  lasin-network:
+  tuempleo-network:
     driver: bridge

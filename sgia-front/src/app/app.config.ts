@@ -1,34 +1,31 @@
-import {
-  ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-  APP_INITIALIZER,
-} from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
-import {
-  jwtInterceptor,
-  errorInterceptor,
-} from './core/authentication/interceptors/http.interceptor';
-import { KeycloakService } from './core/authentication/services/keycloak.service';
+import { AuthService } from './core/auth/services/auth.service';
+import { jwtInterceptor } from './core/auth/interceptors/jwt.interceptor';
 
-export function initializeKeycloak(keycloakService: KeycloakService) {
-  return () => keycloakService.init();
+function initAuth(auth: AuthService) {
+  return () => {
+    return auth.init().then(() => {
+      console.log('Auth inicializado correctamente');
+    }).catch(err => {
+      console.error('Error al inicializar auth:', err);
+    });
+  };
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withInterceptors([jwtInterceptor, errorInterceptor])),
+    provideRouter(routes),
     provideAnimationsAsync(),
+    provideHttpClient(withInterceptors([jwtInterceptor])),
     {
       provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      deps: [KeycloakService],
-      multi: true,
-    },
-  ],
+      useFactory: initAuth,
+      deps: [AuthService],
+      multi: true
+    }
+  ]
 };

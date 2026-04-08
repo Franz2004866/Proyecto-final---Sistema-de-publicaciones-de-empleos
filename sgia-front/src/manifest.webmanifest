@@ -1,7 +1,7 @@
 {
-  "name": "SGIA - Sistema de Gestión de Inventarios",
-  "short_name": "SGIA",
-  "description": "Sistema de Gestión de Inventarios UPDS",
+  "name": "TuEmpleo - Plataforma de Empleos",
+  "short_name": "TuEmpleo",
+  "description": "Plataforma de Publicación de Empleos UPDS",
   "theme_color": "#1976d2",
   "background_color": "#ffffff",
   "display": "standalone",

@@ -1,147 +1,103 @@
-using AutoMapper;
-using SGIA.Application.DTOs;
-using SGIA.Application.Mapping;
-using SGIA.Domain.Entities;
+using TuEmpleo.Domain.Entities;
 
-namespace SGIA.Tests.Mapping
+namespace TuEmpleo.Tests.Mapping
 {
-    public class MappingProfileTests
+    public class EntityTests
     {
-        private readonly IConfigurationProvider _configuration;
-        private readonly IMapper _mapper;
-
-        public MappingProfileTests()
+        [Fact]
+        public void Empleo_ShouldHaveDefaultValues()
         {
-            _configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
-            _mapper = _configuration.CreateMapper();
+            var empleo = new Empleo();
+
+            Assert.Equal(ModalidadTrabajo.Presencial, empleo.Modalidad);
+            Assert.Equal(TipoContrato.TiempoCompleto, empleo.TipoContrato);
+            Assert.True(empleo.VacantesDisponibles);
+            Assert.Equal(1, empleo.NumeroVacantes);
+            Assert.False(empleo.Destacado);
         }
 
         [Fact]
-        public void ShouldHaveValidConfiguration()
+        public void Postulacion_ShouldHaveDefaultValues()
         {
-            _configuration.AssertConfigurationIsValid();
+            var postulacion = new Postulacion();
+
+            Assert.Equal(EstadoPostulacion.Pendiente, postulacion.Estado);
+            Assert.NotNull(postulacion.Movimientos);
+            Assert.Empty(postulacion.Movimientos);
         }
 
         [Fact]
-        public void ShouldMap_Product_To_ProductDto()
+        public void Usuario_ShouldHaveDefaultValues()
         {
-            var product = new Product
-            {
-                Id = Guid.NewGuid(),
-                Code = "P001",
-                Name = "Test Product",
-                Description = "Description",
-                UnitPrice = 100.50m,
-                CurrentStock = 10,
-                MinimalStock = 5,
-                Category = "Electronics",
-                ImageUrl = "https://example.com/image.jpg",
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow,
-                CreatedBy = "test-user"
-            };
+            var usuario = new Usuario();
 
-            var result = _mapper.Map<ProductDto>(product);
-
-            Assert.NotNull(result);
-            Assert.Equal(product.Id, result.Id);
-            Assert.Equal(product.Code, result.Code);
-            Assert.Equal(product.Name, result.Name);
-            Assert.Equal(product.Description, result.Description);
-            Assert.Equal(product.UnitPrice, result.UnitPrice);
-            Assert.Equal(product.CurrentStock, result.CurrentStock);
-            Assert.Equal(product.MinimalStock, result.MinimalStock);
-            Assert.Equal(product.Category, result.Category);
-            Assert.Equal(product.ImageUrl, result.ImageUrl);
-            Assert.Equal(product.IsActive, result.IsActive);
+            Assert.Equal(TipoRol.Postulante, usuario.Rol);
+            Assert.NotNull(usuario.EmpleosPublicados);
+            Assert.NotNull(usuario.Postulaciones);
         }
 
         [Fact]
-        public void ShouldMap_CreateProductDto_To_Product()
+        public void CategoriaEmpleo_ShouldHaveDefaultValues()
         {
-            var createDto = new CreateProductDto
-            {
-                Code = "P001",
-                Name = "New Product",
-                Description = "New Description",
-                UnitPrice = 200,
-                CurrentStock = 15,
-                MinimalStock = 3,
-                Category = "Books",
-                ImageUrl = "https://example.com/new.jpg"
-            };
+            var categoria = new CategoriaEmpleo();
 
-            var result = _mapper.Map<Product>(createDto);
-
-            Assert.NotNull(result);
-            Assert.Equal(createDto.Code, result.Code);
-            Assert.Equal(createDto.Name, result.Name);
-            Assert.Equal(createDto.Description, result.Description);
-            Assert.Equal(createDto.UnitPrice, result.UnitPrice);
-            Assert.Equal(createDto.CurrentStock, result.CurrentStock);
-            Assert.Equal(createDto.MinimalStock, result.MinimalStock);
-            Assert.Equal(createDto.Category, result.Category);
-            Assert.Equal(createDto.ImageUrl, result.ImageUrl);
+            Assert.True(categoria.Activo);
+            Assert.NotNull(categoria.Empleos);
         }
 
         [Fact]
-        public void ShouldMap_UpdateProductDto_To_Product()
+        public void ModalidadTrabajo_ShouldHaveCorrectValues()
         {
-            var existingProduct = new Product
-            {
-                Id = Guid.NewGuid(),
-                Code = "P001",
-                Name = "Old Name",
-                Description = "Old Description",
-                UnitPrice = 50,
-                CurrentStock = 5,
-                MinimalStock = 1,
-                Category = "Old Category"
-            };
-
-            var updateDto = new UpdateProductDto
-            {
-                Code = "P001",
-                Name = "Updated Name",
-                Description = "Updated Description",
-                UnitPrice = 100,
-                CurrentStock = 20,
-                MinimalStock = 5,
-                Category = "Updated Category"
-            };
-
-            _mapper.Map(updateDto, existingProduct);
-
-            Assert.Equal(updateDto.Name, existingProduct.Name);
-            Assert.Equal(updateDto.Description, existingProduct.Description);
-            Assert.Equal(updateDto.UnitPrice, existingProduct.UnitPrice);
-            Assert.Equal(updateDto.CurrentStock, existingProduct.CurrentStock);
-            Assert.Equal(updateDto.MinimalStock, existingProduct.MinimalStock);
-            Assert.Equal(updateDto.Category, existingProduct.Category);
+            Assert.Equal(1, (int)ModalidadTrabajo.Presencial);
+            Assert.Equal(2, (int)ModalidadTrabajo.Remoto);
+            Assert.Equal(3, (int)ModalidadTrabajo.Hibrido);
         }
 
         [Fact]
-        public void ShouldHandle_NullImageUrl_InCreateProductDto()
+        public void TipoContrato_ShouldHaveCorrectValues()
         {
-            var createDto = new CreateProductDto
+            Assert.Equal(1, (int)TipoContrato.TiempoCompleto);
+            Assert.Equal(2, (int)TipoContrato.MedioTiempo);
+            Assert.Equal(3, (int)TipoContrato.ContratoTemporal);
+            Assert.Equal(4, (int)TipoContrato.Practicas);
+            Assert.Equal(5, (int)TipoContrato.PorProyecto);
+        }
+
+        [Fact]
+        public void EstadoPostulacion_ShouldHaveCorrectValues()
+        {
+            Assert.Equal(1, (int)EstadoPostulacion.Pendiente);
+            Assert.Equal(2, (int)EstadoPostulacion.EnRevision);
+            Assert.Equal(3, (int)EstadoPostulacion.Entrevista);
+            Assert.Equal(4, (int)EstadoPostulacion.Aprobado);
+            Assert.Equal(5, (int)EstadoPostulacion.Rechazado);
+        }
+
+        [Fact]
+        public void TipoRol_ShouldHaveCorrectValues()
+        {
+            Assert.Equal(1, (int)TipoRol.Postulante);
+            Assert.Equal(2, (int)TipoRol.Empresa);
+            Assert.Equal(3, (int)TipoRol.Administrador);
+        }
+
+        [Fact]
+        public void MovimientoPostulacion_ShouldBeCreated()
+        {
+            var movimiento = new MovimientoPostulacion
             {
-                Code = "P001",
-                Name = "Product Without Image",
-                Description = "Description",
-                UnitPrice = 100,
-                CurrentStock = 10,
-                MinimalStock = 5,
-                Category = "Electronics",
-                ImageUrl = null
+                PostulacionId = 1,
+                TipoMovimiento = "CREACION",
+                EstadoAnterior = "",
+                EstadoNuevo = "Pendiente",
+                Observacion = "Prueba",
+                UsuarioResponsable = "TestUser"
             };
 
-            var result = _mapper.Map<Product>(createDto);
-
-            Assert.NotNull(result);
-            Assert.Null(result.ImageUrl);
+            Assert.Equal(1, movimiento.PostulacionId);
+            Assert.Equal("CREACION", movimiento.TipoMovimiento);
+            Assert.Equal("Pendiente", movimiento.EstadoNuevo);
+            Assert.Equal("TestUser", movimiento.UsuarioResponsable);
         }
     }
 }

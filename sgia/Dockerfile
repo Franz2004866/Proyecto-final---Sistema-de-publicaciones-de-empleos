@@ -1,5 +1,6 @@
 # ============================================================
-# Dockerfile - SGIA API (.NET 10)
+# Dockerfile - TuEmpleo API (.NET 10)
+# Plataforma de Publicación de Empleos
 # ============================================================
 
 # ----------------------------------------------------------
@@ -8,25 +9,19 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# Copiar archivos de proyecto
-COPY ["SGIA.API/SGIA.API.csproj", "SGIA.API/"]
-COPY ["SGIA.Application/SGIA.Application.csproj", "SGIA.Application/"]
-COPY ["SGIA.Domain/SGIA.Domain.csproj", "SGIA.Domain/"]
-COPY ["SGIA.Infrastructure/SGIA.Infrastructure.csproj", "SGIA.Infrastructure/"]
-COPY ["SGIA.Tests/SGIA.Tests.csproj", "SGIA.Tests/"]
+COPY ["TuEmpleo.API/TuEmpleo.API.csproj", "TuEmpleo.API/"]
+COPY ["TuEmpleo.Application/TuEmpleo.Application.csproj", "TuEmpleo.Application/"]
+COPY ["TuEmpleo.Domain/TuEmpleo.Domain.csproj", "TuEmpleo.Domain/"]
+COPY ["TuEmpleo.Infrastructure/TuEmpleo.Infrastructure.csproj", "TuEmpleo.Infrastructure/"]
 
-# Restaurar dependencias
-RUN dotnet restore SGIA.API/SGIA.API.csproj
+RUN dotnet restore TuEmpleo.API/TuEmpleo.API.csproj
 
-# Copiar todo el código fuente
 COPY . .
 
-# Configurar working directory y construir
-WORKDIR /src/SGIA.API
-RUN dotnet build SGIA.API.csproj -c Release -o /app/build
+WORKDIR /src/TuEmpleo.API
+RUN dotnet build TuEmpleo.API.csproj -c Release -o /app/build
 
-# Publicar la aplicación
-RUN dotnet publish SGIA.API.csproj -c Release -o /app/publish
+RUN dotnet publish TuEmpleo.API.csproj -c Release -o /app/publish
 
 # ----------------------------------------------------------
 # Stage 2: Runtime
@@ -34,15 +29,11 @@ RUN dotnet publish SGIA.API.csproj -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 
-# Copiar archivos publicados
 COPY --from=build /app/publish .
 
-# Configurar puerto HTTP
 ENV ASPNETCORE_URLS=http://+:5150
 ENV ASPNETCORE_ENVIRONMENT=Development
 
-# Exponer puerto
 EXPOSE 5150
 
-# Punto de entrada
-ENTRYPOINT ["dotnet", "SGIA.API.dll"]
+ENTRYPOINT ["dotnet", "TuEmpleo.API.dll"]

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>TuEmpleo.API</RootNamespace>
+  </PropertyGroup>
+  	
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+  	
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
+    <PackageReference Include="Magic.AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    <PackageReference Include="QuestPDF" Version="2024.10.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+  </ItemGroup>
+  	
+  <ItemGroup>
+    <ProjectReference Include="..\TuEmpleo.Infrastructure\TuEmpleo.Infrastructure.csproj" />
+    <ProjectReference Include="..\TuEmpleo.Application\TuEmpleo.Application.csproj" />
+    <ProjectReference Include="..\TuEmpleo.Domain\TuEmpleo.Domain.csproj" />
+  </ItemGroup>
+</Project>

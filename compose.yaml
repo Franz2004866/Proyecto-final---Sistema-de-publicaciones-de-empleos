@@ -1,17 +1,17 @@
 services:
   postgres:
     image: docker.io/library/postgres:18.1-trixie
-    container_name: sgia_postgres
+    container_name: tuempleo_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Lasin1234
-      POSTGRES_DB: postgres
+      POSTGRES_DB: tuempleo_db
     ports:
       - "5434:5432"
     volumes:
-      - sgia_pg_data:/var/lib/postgresql
-      - ./Scripts/01-create-databases.sql:/docker-entrypoint-initdb.d/01-create-databases.sql:ro
+      - tuempleo_pg_data:/var/lib/postgresql
+      - ./Scripts/init-keycloak.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -19,11 +19,11 @@ services:
       retries: 10
       start_period: 5s
     networks:
-      - sgia-network
+      - tuempleo-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.5.4
-    container_name: sgia_kc
+    container_name: tuempleo_kc
     restart: on-failure:2
     environment:
       KC_DB: postgres
@@ -40,30 +40,31 @@ services:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_LOG_LEVEL: INFO
+      KC_CORS_ALLOWED_ORIGINS: "http://localhost:42000,http://localhost:4200"
     ports:
       - "8088:8080"
     volumes:
-      - sgia_kc_data:/opt/keycloak/data
+      - tuempleo_kc_data:/opt/keycloak/data
       - ./keycloak/realm-import.json:/opt/keycloak/data/import/realm-import.json:ro
     depends_on:
       postgres:
         condition: service_healthy
     command: start-dev --import-realm
     networks:
-      - sgia-network
+      - tuempleo-network
 
   webapi:
     build:
       context: ./sgia
       dockerfile: Dockerfile
-    container_name: sgia_aspnetcore_webapi
+    container_name: tuempleo_webapi
     restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:5150
-      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=sgia_db;Username=postgres;Password=Lasin1234
-      Keycloak__Authority: http://keycloak:8080/realms/sgia-realm
-      Keycloak__Audience: backend-client
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=tuempleo_db;Username=postgres;Password=Lasin1234
+      Keycloak__Authority: http://keycloak:8080/realms/tuempleo-realm
+      Keycloak__Audience: frontend-app
     ports:
       - "5150:5150"
     depends_on:
@@ -72,13 +73,13 @@ services:
       keycloak:
         condition: service_started
     networks:
-      - sgia-network
+      - tuempleo-network
 
   frontend:
     build:
       context: ./sgia-front
       dockerfile: Dockerfile
-    container_name: sgia_frontend
+    container_name: tuempleo_frontend
     environment:
       API_URL: http://webapi:5150
       KEYCLOAK_URL: http://keycloak:8080
@@ -87,12 +88,12 @@ services:
     depends_on:
       - webapi
     networks:
-      - sgia-network
+      - tuempleo-network
 
 volumes:
-  sgia_pg_data:
-  sgia_kc_data:
+  tuempleo_pg_data:
+  tuempleo_kc_data:
 
 networks:
-  sgia-network:
+  tuempleo-network:
     driver: bridge

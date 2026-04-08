@@ -1,108 +1,78 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/authentication/guards/auth.guard';
+import { authGuard } from './core/auth/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
+    loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
+  },
+  {
+    path: 'empleos/:id',
+    loadComponent: () => import('./pages/job-detail/job-detail.page').then((m) => m.JobDetailPage),
   },
   {
     path: 'login',
-    loadComponent: () => import('./features/auth/pages/login/login.page').then((m) => m.LoginPage),
+    loadComponent: () => import('./pages/auth/login/login.page').then((m) => m.LoginPage),
+  },
+  {
+    path: 'registro',
+    loadComponent: () => import('./pages/auth/register/register.page').then((m) => m.RegisterPage),
   },
   {
     path: 'callback',
-    loadComponent: () =>
-      import('./features/auth/pages/callback/callback.page').then((m) => m.CallbackPage),
+    loadComponent: () => import('./pages/auth/callback/callback.page').then((m) => m.CallbackPage),
   },
   {
-    path: '',
-    loadComponent: () =>
-      import('./shared/components/layout/layout.component').then((m) => m.LayoutComponent),
-    canActivate: [authGuard],
+    path: 'app',
+    canMatch: [authGuard],
+    loadComponent: () => import('./shared/layout/app-layout/app-layout.component').then((m) => m.AppLayoutComponent),
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./features/dashboard/pages/dashboard/dashboard.page').then(
-            (m) => m.DashboardPage,
-          ),
+        loadComponent: () => import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
       },
       {
-        path: 'products',
-        loadComponent: () =>
-          import('./features/products/pages/product-list/product-list.page').then(
-            (m) => m.ProductListPage,
-          ),
+        path: 'empleos',
+        loadComponent: () => import('./pages/dashboard/jobs/jobs.page').then((m) => m.JobsPage),
       },
       {
-        path: 'products/new',
-        loadComponent: () =>
-          import('./features/products/pages/product-form/product-form.page').then(
-            (m) => m.ProductFormPage,
-          ),
+        path: 'empleos/nuevo',
+        loadComponent: () => import('./pages/dashboard/job-form/job-form.page').then((m) => m.JobFormPage),
       },
       {
-        path: 'products/:id',
-        loadComponent: () =>
-          import('./features/products/pages/product-detail/product-detail.page').then(
-            (m) => m.ProductDetailPage,
-          ),
+        path: 'empleos/:id/editar',
+        loadComponent: () => import('./pages/dashboard/job-form/job-form.page').then((m) => m.JobFormPage),
       },
       {
-        path: 'products/:id/edit',
-        loadComponent: () =>
-          import('./features/products/pages/product-form/product-form.page').then(
-            (m) => m.ProductFormPage,
-          ),
+        path: 'postulaciones',
+        loadComponent: () => import('./pages/dashboard/applications/applications.page').then((m) => m.ApplicationsPage),
       },
       {
-        path: 'categories',
-        loadComponent: () =>
-          import('./features/categories/pages/category-list/category-list.page').then(
-            (m) => m.CategoryListPage,
-          ),
+        path: 'mis-postulaciones',
+        loadComponent: () => import('./pages/dashboard/my-applications/my-applications.page').then((m) => m.MyApplicationsPage),
       },
       {
-        path: 'categories/new',
-        loadComponent: () =>
-          import('./features/categories/pages/category-form/category-form.page').then(
-            (m) => m.CategoryFormPage,
-          ),
+        path: 'categorias',
+        loadComponent: () => import('./pages/dashboard/categories/categories.page').then((m) => m.CategoriesPage),
       },
       {
-        path: 'categories/:id/edit',
-        loadComponent: () =>
-          import('./features/categories/pages/category-form/category-form.page').then(
-            (m) => m.CategoryFormPage,
-          ),
+        path: 'usuarios',
+        loadComponent: () => import('./pages/dashboard/users/users.page').then((m) => m.UsersPage),
       },
       {
-        path: 'movements',
-        loadComponent: () =>
-          import('./features/movements/pages/movement-list/movement-list.page').then(
-            (m) => m.MovementListPage,
-          ),
+        path: 'reportes',
+        loadComponent: () => import('./pages/dashboard/reports/reports.page').then((m) => m.ReportsPage),
       },
       {
-        path: 'movements/new',
-        loadComponent: () =>
-          import('./features/movements/pages/movement-form/movement-form.page').then(
-            (m) => m.MovementFormPage,
-          ),
-      },
-      {
-        path: 'reports',
-        loadComponent: () =>
-          import('./features/reports/pages/report-view/report-view.page').then(
-            (m) => m.ReportViewPage,
-          ),
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
     ],
   },
   {
     path: '**',
-    redirectTo: 'dashboard',
+    redirectTo: '',
+    pathMatch: 'full',
   },
 ];
