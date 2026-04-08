@@ -1,13 +1,8 @@
 # PROGRAMACIÓN WEB II
-
 ## PROYECTO FINAL
-
 ### SEXTO SEMESTRE - GESTIÓN 2026
-
 ---
-
 # TuEmpleo - Sistema de Gestión de Bolsa de Empleo
-
 ## Plataforma de Empleo para Bolivia
 
 ---
@@ -1442,11 +1437,11 @@ El desarrollo del proyecto **TuEmpleo** permitió alcanzar los siguientes logros
 
 ## 10.1. Repositorio GitHub
 
-**URL del Repositorio:** [AGREGAR URL]
+**URL del Repositorio:** 
 
 ## 10.2. Video Demostración
 
-**Enlace al video en YouTube:** [AGREGAR ENLACE]
+**Enlace al video en YouTube:** https://youtu.be/yJw8yUlkTCQ
 
 ## 10.3. Docker Compose
 
