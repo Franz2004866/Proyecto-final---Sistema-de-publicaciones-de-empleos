@@ -2,8 +2,6 @@
 
 ## PROYECTO FINAL
 
----
-
 ### SEXTO SEMESTRE - GESTIÓN 2026
 
 ---
@@ -16,13 +14,13 @@
 
 **ESTUDIANTES:**
 
-- [Acosta Morales Jose Miguel] 
-- [Condori Cerezo Franz Divar] 
+- Acosta Morales Jose Miguel
+- Condori Cerezo Franz Divar 
 
-**DOCENTE:** [Andrés Grover Albino Chambi]
+**DOCENTE:** Ing. Andrés Grover Albino Chambi
 
 **La Paz - Bolivia**
-**[8 de abril del 2026]**
+**8 de abril del 2026**
 
 ---
 
