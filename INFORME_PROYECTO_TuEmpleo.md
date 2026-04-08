@@ -1437,7 +1437,7 @@ El desarrollo del proyecto **TuEmpleo** permitió alcanzar los siguientes logros
 
 ## 10.1. Repositorio GitHub
 
-**URL del Repositorio:** 
+**URL del Repositorio:** https://github.com/Franz2004866/Proyecto-final---Sistema-de-publicaciones-de-empleos.git
 
 ## 10.2. Video Demostración
 
